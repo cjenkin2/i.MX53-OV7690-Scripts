@@ -14,6 +14,18 @@ AGC="0x13 0x00 0x15"
 # script commands
 CMDS="get set help"
 
+# helper functions
+unpack()
+{
+	eval echo \${$1}
+}
+
+num_regs_for_control()
+{
+	echo $(unpack $1) |  wc -w
+}
+
+# proper script functions
 usage()
 {
 	echo "usage: $0 [control] [cmd] [vals...]"
@@ -26,20 +38,20 @@ usage()
 
 get_regs()
 {
-	local REGS=$(eval echo \${$1}) # TODO HACK!
+	local REGS=$(unpack $1) # TODO HACK!
 	for REG in $REGS
 	do
-		shift # I hate this language...
-		echo "$REG:	$(${i2c_ov7690_get} $REG $1)"
+		echo "$REG:	$(${i2c_ov7690_get} $REG)"
 	done
 }
 
 set_regs()
 {
-	local REGS=$(eval echo \${$1})
+	local REGS=$(unpack $1) # TODO HACK!
 	for REG in $REGS
 	do
-		echo "$REG:	$(${i2c_ov7690_set} $REG)"
+		shift # I hate this language...
+		echo "$REG:	$(${i2c_ov7690_set} $REG $1)"
 	done
 	
 }
@@ -61,6 +73,12 @@ case $CMD in
 	get_regs $OV7690_CONTROL
 	;;
  set)
-	echo "Not yet implemented!"
+	shift 2
+	if [ $# -eq $(num_regs_for_control $OV7690_CONTROL) ]; then
+		set_regs $OV7690_CONTROL $@
+	else
+		echo "Error: Wrong number of params for control: $OV7690_CONTROL"
+		$0 $OV7690_CONTROL help
+	fi
 	;;
 esac
