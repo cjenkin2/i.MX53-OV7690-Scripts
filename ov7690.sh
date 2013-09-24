@@ -30,7 +30,7 @@ get_regs()
 	for REG in $REGS
 	do
 		shift # I hate this language...
-		${i2c_ov7690_get} $REG $1
+		echo "$REG:	$(${i2c_ov7690_get} $REG $1)"
 	done
 }
 
@@ -39,7 +39,7 @@ set_regs()
 	local REGS=$(eval echo \${$1})
 	for REG in $REGS
 	do
-		${i2c_ov7690_set} $REG 
+		echo "$REG:	$(${i2c_ov7690_set} $REG)"
 	done
 	
 }
