@@ -24,14 +24,14 @@ case $CMD in
 	usage
 	;;
  get)
-	shift; get_regs "$@" # I hate this language
+	shift; get_regs "$@" # Bash argument magic
 	;;
  group_get)
 	OV7690_GROUP=$2
 	get_regs_in_group $OV7690_GROUP
 	;;
  set)
-	shift; set_regs "$@" # I hate this language
+	shift; set_regs "$@" # Bash argument magic
 	;;
  *)
 	echo "Error: unknown command:	$CMD"

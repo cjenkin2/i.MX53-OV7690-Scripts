@@ -6,11 +6,11 @@ OV7690_ADDR=0x21
 i2c_ov7690_get="sudo i2cget -f -y $I2C_BUS $OV7690_ADDR"
 i2c_ov7690_set="sudo i2cset -f -y -r $I2C_BUS $OV7690_ADDR"
 
-# OOP by naming conventions... disgusting
+# OOP by naming conventions...
 #
 
 #OV7690_GROUP object names
-OV7690_GROUPS="AGC AEC AWB LENS CLOCK"
+OV7690_GROUPS="AGC AEC AWB LENS CLOCK EDGE"
 
 #OV7690_GROUP object registers
 AGC="0x13 0x00 0x15 0x14 0xBA"
@@ -18,6 +18,7 @@ AWB="0x13 0x01 0x02 0x03"
 AEC="0x13 0x0F 0x10 0x20 0x21"
 LENS="0x80"
 CLOCK="0x11 0x29"
+EDGE="0xB4"
 
 # helper functions
 unpack()
