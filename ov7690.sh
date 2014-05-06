@@ -7,12 +7,13 @@ usage()
 	echo "usage: $0 get [addr...]"
 	echo "       $0 group_get [group]"
 	echo "       $0 set [addr=val...]"
+	echo "       $0 reset"
 	echo "where  addr... and val... are lists of hexadecimal values (0x00 to 0xFF)"
 	echo "       group is one of: ${OV7690_GROUPS}"
 }
 
 # parameter check
-if [ $# -lt 2 ]; then
+if [ $# -lt 1 ]; then
 	usage
 	exit 65 # bad params
 fi
@@ -32,6 +33,9 @@ case $CMD in
 	;;
  set)
 	shift; set_regs "$@" # Bash argument magic
+	;;
+ reset)
+	set_regs "0x12=0x80"
 	;;
  *)
 	echo "Error: unknown command:	$CMD"
